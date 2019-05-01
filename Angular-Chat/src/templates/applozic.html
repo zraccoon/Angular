@@ -1,0 +1,690 @@
+
+
+<div id="apz-app-box" class="apz-app-box apz-main-box">
+	<div class="apz-contact-panel apz-panel apz-panel-sm apz-bg-white">
+		<div class="apz-panel-content">
+			<div class="apz-panel-top apz-panel-header apz-row">
+				<div class="blk-lg-3">
+					<img class="apz-user-image"
+						src="https://www.applozic.com/resources/images/applozic_logo.gif">
+				</div>
+				<div class="blk-lg-6">
+					<h4 class="apz-panel-title apz-truncate">Conversations</h4>
+				</div>
+				<div class="blk-lg-3 apz-menu-item apz-text-right">
+					<div class="mck-dropdown-toggle" data-toggle="mckdropdown"
+						aria-expanded="true">
+						<img
+							src="./images/icon-menu.png"
+							class="mck-menu-icon" alt="Menu">
+					</div>
+					<ul id="apz-start-new-menu-box"
+						class="apz-dropdown-menu apz-tab-menu-box apz-menu-right"
+						role="menu">
+						<li><a href="javascript:void(0);"
+							ng-click="loadContactsToSearchTab($event)"
+							class="apz-contact-search menu-item" title="New Chat">New
+								Chat</a></li>
+						<li><a ng-click="loadContactsToSearchTab($event)"
+							href="javascript:void(0);" class="apz-contact-search menu-item"
+							title="Contacts">Contacts</a></li>
+						<li><a href="javascript:void(0);"
+							ng-click="loadGroupsToSearchTab($event);"
+							class="apz-group-search menu-item" title="Groups">Groups</a></li>
+						<li><a href="javascript:void(0);"
+							ng-click="loadGroupCreateTab($event)" class="menu-item"
+							title="Create Group">Create Group</a></li>
+
+
+
+					</ul>
+				</div>
+			</div>
+			<div class="apz-panel-top apz-sub-panel-top apz-row">
+				<!-- 	<input type="text" ng-keypress="searchContactKeyPress($event)" id="apz-contact-search" data-provide="typeahead" placeholder="Search...." autofocus>
+						<a href="#" ng-click="searchContact($event)" class="apz-contact-search-btn search"></a> -->
+				<div class="blk-lg-12">
+					<div class="apz-input-group">
+						<span class="apz-search-icon-box"> <a
+							id="apz-contact-search-btn" ng-click="searchContact($event)"
+							href="javascript:void(0);" role="link"><span
+								class="apz-icon-search"></span></a>
+						</span> <input type="text" id="apz-contact-search"
+							ng-keypress="searchContactKeyPress($event)"
+							data-provide="typeahead" placeholder="Search....">
+					</div>
+				</div>
+			</div>
+			<!-- 			<div class="apz-panel-top">
+				<div class="blk-lg-12">
+					<div class="apz-input-group">
+						<span class="apz-search-icon-box"><a
+							id="apz-contact-search" href="#" role="link"><span
+								class="apz-icon-search"></span></a></span> <input type="text"
+							id="apz-contact-search-text" data-provide="typeahead"
+							placeholder="Search or start new" autofocus />
+					</div>
+				</div>
+			</div> -->
+			<div class="apz-panel-body">
+				<div id="apz-contact-cell" class="apz-panel-cell">
+					<div id="apz-contact-inner" class="apz-panel-inner">
+						<ul id="apz-conversation-list" ng-model="activeContact.htmlId"
+							class="apz-contact-list apz-nav apz-nav-tabs apz-nav-stacked">
+							<addcontact
+								ng-repeat="contact in contacts | orderBy:contact.msgTime:true"></addcontact>
+						</ul>
+					</div>
+					<div id="apz-conversation-loading" class="apz-loading {{convProps.loadingIconStatus}}">
+						<img
+							src="./images/apz-icon-ring.gif">
+					</div>
+					<div id="apz-no-more-conversations" class="apz-v-center n-vis">
+						<h3>No more conversations!</h3>
+					</div>
+					<div id="apz-no-conversations" class="apz-v-center {{convProps.noConvStatus}}">
+						<h3>No conversations yet!</h3>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="apz-message-panel"
+		class="apz-message-panel apz-panel apz-bg-white">
+		<div class="apz-panel-content {{tabProps.contentStatus}}">
+			<div class="apz-panel-top">
+				<div class="blk-lg-12">
+					<div class="apz-row vis">
+						<div id="apz-message-panel-icon" class="blk-lg-3 apz-tab-icon"
+							ng-bind-html="tabProps.icon"></div>
+						<div class="blk-lg-7">
+							<div id="apz-message-panel-title"
+								class="apz-panel-title apz-truncate {{tabProps.titlewsStatus}} {{tabProps.titlewtStatus}}" title="{{tabProps.title}}">{{tabProps.title}}</div>
+							<div id="apz-message-panel-subtitle"
+								class="apz-panel-subtitle apz-truncate {{tabProps.subtitleStatus}}"
+								title="{{tabProps.subtitleText}}">{{tabProps.subtitleText}}</div>
+							<div id="apz-message-typing-status"
+								class="apz-panel-subtitle apz-truncate {{tabProps.typingStatus}}">
+								<span class="name-text">{{tabProps.typingText}}</span><span>typing...</span>
+							</div>
+						</div>
+						<div class="apz-nav-menu-list blk-lg-2 apz-move-right">
+							<div class="apz-menu-item">
+								<div class="mck-dropdown-toggle" data-toggle="mckdropdown"
+									aria-expanded="true">
+									<img
+										src="./images/icon-menu.png"
+										class="apz-menu-icon" alt="Tab Menu">
+								</div>
+								<ul id="apz-tab-menu-list"
+									class="apz-dropdown-menu apz-tab-menu-box apz-menu-right"
+									role="menu">
+									<li id="li-apz-clear-messages"
+										class="apz-message-menu-options {{tabProps.msgMenusStatus}}"><a
+										href="javascript:void(0);" id="apz-clear-messages"
+										class="apz-clear-messages menu-item vis"
+										title="Clear Messages" ng-click="clearMessages($event);">Clear
+											Messages</a></li>
+									<li id="li-apz-block-user" class="{{tabProps.userMenusStatus}} {{tabProps.blockUserMenuStatus}}"><a
+										href="javascript:void(0);" id="apz-btn-block"
+										ng-click="toggleBlock($event)" class="menu-item"
+										title="{{tabProps.blockedText}}">{{tabProps.blockedText}}</a></li>
+									<li id="li-apz-group-info" class="{{tabProps.groupMenusStatus}}">
+										<a href="javascript:void(0);" id="apz-btn-group-info"
+										ng-click="loadGroupInfo($event)" class="menu-item"
+										title="Group Info">Group Info</a>
+									</li>
+									<li id="li-apz-leave-group" class="{{tabProps.groupMenusStatus}}"><a
+										href="javascript:void(0);" id="apz-btn-leave-group"
+										ng-click="exitGroup($event);" class="menu-item"
+										title="Exit Group"> Exit Group</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="apz-product-detail" class="apz-product-detail">
+				<div id="apz-product-box"
+					class="apz-product-box mck-dropdown-toggle  {{productDetail.pbStatus}} {{productDetail.pbwcExpr}}"
+					data-toggle="mckdropdown" aria-expanded="true">
+					<div class="apz-row">
+						<div class="blk-lg-10">
+							<div class="apz-row">
+								<div id="apz-product-icon" class="blk-lg-3 apz-product-icon"
+									ng-bind-html="productDetail.icon"></div>
+								<div class="blk-lg-9">
+									<div class="apz-row">
+										<div id="apz-product-title"
+											class="blk-lg-8 apz-product-title apz-truncate">{{productDetail.title}}</div>
+										<div id="apz-product-rt-up"
+											class="blk-lg-4 apz-move-right apz-product-rt-up mck-truncate">
+											<strong class="apz-product-key">{{productDetail.key1}}</strong><span
+												class="apz-product-value">{{productDetail.value1}}</span>
+										</div>
+									</div>
+									<div class="apz-row">
+										<div id="apz-product-subtitle"
+											class="blk-lg-8 apz-truncate apz-product-subtitle">{{productDetail.subtitle}}</div>
+										<div id="apz-product-rt-down"
+											class="blk-lg-4 apz-move-right apz-product-rt-down apz-truncate">
+											<strong class="apz-product-key">{{productDetail.key2}}</strong><span
+												class="apz-product-value">{{productDetail.value2}}</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="blk-lg-2 apz-text-center">
+							<span class="apz-caret {{productDetail.caretStatus}}"></span>
+						</div>
+					</div>
+				</div>
+				<ul id="apz-conversation-list"
+					class="apz-dropdown-menu apz-menu-right apz-conversation-list {{productDetail.clStatus}}"
+					role="menu">
+					<contextualbox ng-repeat="context in contextList"></contextualbox>
+				</ul>
+			</div>
+			<div class="mck-box-body apz-panel-body">
+				<div id="apz-message-cell"
+					class="mck-tab-cell mck-message-cell apz-panel-cell">
+					<div compile-data id="apz-message-inner"
+						scroll="onMessageTabScroll($event)"
+						class="apz-message-inner apz-panel-inner {{tabProps.panelInnerStatus}}">
+						<messagebox
+							ng-repeat="message in messages | orderBy:msgOrder:false"></messagebox>
+					</div>
+
+					<div id="apz-message-loading" class="apz-loading {{tabProps.loadingIconStatus}}">
+						<img
+							src="./images/apz-icon-ring.gif">
+					</div>
+					<div id="apz-no-messages"
+						class="apz-no-messages apz-text-muted apz-v-center {{tabProps.noMessagesStatus}}">No
+						messages yet!</div>
+					<div id="apz-no-more-messages"
+						class="apz-v-center n-vis">
+						<h3>No more messages!</h3>
+					</div>
+				</div>
+			</div>
+			<div id="apz-panel-ft" class="apz-panel-ft">
+				<div class="apz-form-box apz-row vis">
+					<div class="blk-lg-12">
+						<div id="apz-msg-error" class="apz-error-box {{tabProps.errorStatus}}">{{tabProps.errorText}}</div>
+					</div>
+					<div class="blk-lg-12">
+						<p id="apz-msg-response" class="apz-response-box n-vis"></p>
+					</div>
+					<div class="blk-lg-12">
+						<form id="apz-msg-form" class="apz-form-horizontal apz-msg-form {{tabProps.msgFormStatus}}">
+							<div class="apz-form-group n-vis">
+								<label class="apz-sr-only placeholder-text control-label"
+									for="apz-msg-to">To:</label> <input class="mck-form-cntrl"
+									id="apz-msg-to" name="mck-msg-to" placeholder="To" required>
+							</div>
+							<div class="apz-form-group last last-child">
+								<label class="apz-sr-only placeholder-text">Message</label>
+								<div id="apz-textbox-container"
+									class="apz-textbox-container apz-row {{isTextReq.textbox}}">
+									<div class="blk-lg-2 apz-textbox-panel move-left">
+
+										<div id="apz-attach-menu" class="apz-attach-menu {{tabProps.uploadMenuStatus}}">
+											<div class="mck-dropdown-toggle apz-btn-attach-menu"
+												data-toggle="mckdropdown" aria-expanded="true"
+												title="Attach File">
+												<img
+													src="./images/apz-icon-attachment.png"
+													class="apz-menu-icon attachment" alt="Attach">
+											</div>
+											<ul id="apz-upload-menu-list"
+												class="apz-dropup-menu apz-upload-menu-list apz-menu-right"
+												role="menu">
+												<li><a id="apz-file-up1" href="javascript:void(0);"
+													class="apz-file-upload menu-item" title="File &amp; Photos"
+													ng-click="attachFile($event)"> <img
+														src="./images/apz-icon-photo.png"
+														class="menu-icon" alt="File &amp; Photos" /> <span>Files
+															&amp; Photos</span>
+												</a></li>
+												<li><a id="apz-btn-loc" href="javascript:void(0);"
+													class="menu-item" title="Location"
+													ng-click="openLocBox($event)"> <img
+														src="./images/apz-icon-marker.png"
+														class="menu-icon" alt="Location" /> <span>Location</span>
+												</a></li>
+
+											</ul>
+										</div>
+										<button id="apz-btn-direct-upload" type="button"
+											class="apz-file-upload apz-btn apz-btn-text-panel {{tabProps.uploadBtnStatus}}"
+											title="Files &amp; Photos" ng-click="attachFile($event)">
+											<img
+												src="./images/apz-icon-attachment.png"
+												class="apz-menu-icon attachment" alt="Files &amp; Photos">
+										</button>
+									</div>
+									<div id="apz-text-box" contenteditable="true"
+										ng-keydown="textboxKeydown($event);"
+										class="blk-lg-8 apz-text-box"></div>
+									<div class="blk-lg-2 apz-textbox-panel">
+										<button type="button" id="apz-btn-smiley"
+											class="apz-btn apz-btn-smiley apz-btn-text-panel"
+											title="Smiley">
+											<img
+												src="./images/apz-icon-smiley-gray.png"
+												alt="Smiley">
+										</button>
+									</div>
+									<div class="blk-lg-2 apz-textbox-panel">
+										<button type="button" id="apz-msg-sbmt"
+											ng-click="validateMessage($event);"
+											class="apz-btn apz-btn-text-panel apz-move-right"
+											title="Send Message">
+											<img
+												src="./images/apz-icon-send.png"
+												alt="Send">
+										</button>
+									</div>
+								</div>
+								<div id="apz-file-container" class="apz-row">
+									<input id="apz-file-input" class="mck-file-input n-vis"
+										type="file" name="files[]">
+									<filebox ng-repeat="file in files | orderBy:msgOrder:false"></filebox>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="mck-running-on n-vis">
+				<a href="https://www.applozic.com" target="_blank"><span
+					class="n-vis">Applozic Chat SDK</span><strong>Powered by
+						Applozic</strong></a>
+			</div>
+		</div>
+	</div>
+	<div id="apz-group-info-tab"
+		class="apz-gi-panel apz-panel apz-panel-sm apz-panel-right n-vis">
+		<div class="apz-panel-content mck-box-content">
+			<div class="apz-panel-top">
+				<div class="blk-lg-10">
+					<div class="apz-panel-title apz-truncate" title="Group Info">Group
+						Info</div>
+				</div>
+				<div class="blk-lg-2">
+					<button type="button"
+						class="apz-minimize-icon apz-box-close apz-close icon n-vis">
+						<span aria-hidden="true">&minus;</span>
+					</button>
+					<button type="button" ng-click="closePanelRight($event)"
+						class="apz-box-close apz-close-panel apz-move-right">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			</div>
+			<div id="apz-group-detail-panel" class="apz-group-detail-box">
+				<div class="apz-group-icon-box apz-panel-block">
+					<div id="apz-group-info-icon-panel"
+						class="apz-group-info-icon-panel apz-group-icon-panel {{giProps.hoverStatus}}">
+						<div class="apz-group-icon" data-iconurl="{{giProps.iconUrl}}" ng-bind-html="giProps.icon"></div>
+						<span class="apz-overlay-box {{giProps.overlayStatus}}">
+							<div class="apz-overlay" ng-click="changeGroupIcon($event);">
+								<span class="apz-camera-icon"></span><span
+									class="apz-overlay-label">{{giProps.overlayLabel}}</span>
+							</div>
+							<div id="apz-group-info-icon-loading" class="apz-loading {{giProps.iconLoadingStatus}}">
+								<img
+									src="./images/apz-loading.gif" />
+							</div> <input id="apz-group-icon-change"
+							class="apz-group-icon-change n-vis" type="file" name="file[]" />
+						</span>
+					</div>
+					<div class="apz-text-center">
+						<a id="apz-btn-group-icon-save" ng-click="saveGroupIcon($event);"
+							href="javascript:void(0);" role="link"
+							class="apz-btn-group-icon-save {{giProps.saveIconStatus}}" title="Click to save">
+							<img
+							src="./images/apz-icon-save.png"
+							alt="Save">
+						</a>
+					</div>
+				</div>
+				<div id="apz-group-info-title-box"
+					class="apz-group-title-box apz-panel-block">
+					<div id="apz-group-info-title-panel"
+						class="apz-row apz-group-title-panel">
+						<div class="blk-lg-9">
+							<div id="apz-gi-title" class="apz-group-title {{isTextReq.giTitlebox}}"
+								contenteditable="false">Group Title</div>
+						</div>
+						<div class="blk-lg-3 apz-group-title-edit-icon">
+							<a id="apz-group-title-edit" href="javascript:void(0);"
+								ng-click="editGroupTitle($event);" role="link"
+								class="apz-group-title-edit {{giProps.editTitleStatus}}" title="Edit"> <img
+								src="./images/apz-icon-write.png"
+								alt="Edit"></a> <a id="apz-group-title-save"
+								href="javascript:void(0);" ng-click="saveGroupTitle($event);"
+								role="link" class="apz-group-title-save {{giProps.saveTitleStatus}}"
+								title="Click to save"> <img
+								src="./images/apz-icon-save.png"
+								alt="Save"></a>
+						</div>
+					</div>
+				</div>
+				<div class="apz-group-add-box apz-panel-block">
+					<div class="apz-group-add-box-title">Members</div>
+					<div id="apz-group-add-member-sec"
+						class="apz-group-admin-options apz-group-add-member-sec {{giProps.addMemberTitleStatus}}">
+						<a id="apz-group-add-member" href="javascript:void(0);"
+							class="apz-group-add-member" ng-click="loadGroupMemberSearchList($event);">
+							<div class="apz-row">
+								<div class="blk-lg-3">
+									<img src="./images/apz-icon-add-member.png"
+										alt="Add Member">
+								</div>
+								<div class="blk-lg-9">Add member</div>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="apz-panel-body">
+				<div class="apz-panel-cell">
+					<div class="apz-panel-inner">
+						<ul id="apz-group-member-list"
+							class="apz-group-member-list apz-contact-list apz-nav apz-nav-tabs apz-nav-stacked">
+							<groupmember
+								ng-repeat="member in activeGroupMembers | orderBy:member.firstAlphaExpr:true"></groupmember>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div id="apz-gi-panel-ft" class="apz-gi-panel-ft">
+				<button type="button" id="apz-btn-group-exit"
+					class="apz-btn apz-btn-blue apz-btn-group-exit"
+					ng-click="exitGroup($event);" title="Exit Group">Exit
+					Group</button>
+			</div>
+		</div>
+	</div>
+	<div id="apz-group-create-tab"
+		class="apz-group-create-tab apz-panel-sm apz-panel apz-panel-right n-vis">
+		<div class="apz-panel-content">
+			<div class="apz-panel-top">
+				<div class="blk-lg-10">
+					<div class="apz-panel-title apz-truncate" title="Create Group">Create
+						Group</div>
+				</div>
+				<div class="blk-lg-2">
+					<button type="button" id="apz-group-create-close"
+						ng-click="closePanelRight($event)"
+						class="apz-box-close apz-close-panel apz-move-right">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			</div>
+			<div class="apz-panel-body">
+				<div class="apz-panel-cell">
+					<div id="apz-group-create-panel-inner"
+						class="apz-panel-inner apz-group-create-panel-inner">
+						<div class="apz-group-icon-box apz-panel-block">
+							<div id="apz-group-create-icon-panel"
+								class="apz-group-create-icon-panel apz-group-icon-panel {{gcProps.hoverStatus}}">
+								<div class="apz-group-icon" data-iconurl="{{gcProps.iconUrl}}" ng-bind-html="gcProps.icon"></div>
+								<span class="apz-overlay-box {{gcProps.overlayStatus}}">
+									<div class="apz-overlay" ng-click="uploadGroupIcon($event);">
+										<span class="apz-camera-icon"></span> <span
+											class="apz-overlay-label">{{gcProps.overlayLabel}}</span>
+									</div>
+									<div id="apz-group-create-icon-loading"
+										class="apz-loading {{gcProps.iconLoadingStatus}}">
+										<img
+											src="./images/apz-loading.gif" " />
+									</div> <input id="apz-group-icon-upload"
+									class="apz-group-icon-upload n-vis" type="file" name="files[]">
+								</span>
+							</div>
+						</div>
+						<div id="apz-group-create-title-box"
+							class="apz-group-title-box apz-panel-block">
+							<div id="apz-group-create-title-panel"
+								class="apz-row apz-group-title-panel">
+								<div class="blk-lg-12">
+									<div class="apz-label">Group Title</div>
+								</div>
+								<div class="blk-lg-12">
+									<div id="apz-group-create-title"
+										class="apz-group-create-title apz-group-title {{isTextReq.gcTitlebox}}"
+										contenteditable="true">Group title</div>
+								</div>
+							</div>
+						</div>
+						<div id="apz-group-create-type-box"
+							class="apz-group-title-box apz-panel-block">
+							<div id="apz-group-create-type-panel"
+								class="apz-row mck-group-type-panel">
+								<div class="blk-lg-12">
+									<div class="apz-label">Group Type</div>
+								</div>
+								<div class="blk-lg-12">
+									<select id="apz-group-create-type" class="apz-select">
+										<option value="2" selected>Public</option>
+										<option value="1">Private</option>
+										<option value="6">Open</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div id="apz-group-create-btn-box" class="apz-panel-block">
+							<button type="button" id="apz-btn-group-create"
+								ng-click="createGroupSubmit($event);"
+								class="apz-btn apz-btn-green apz-btn-group-create"
+								title="Create Group">Create Group</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="apz-loc-box"
+	class="apz-app-box apz-dialog-box apz-loc-box fade" aria-hidden="false">
+	<div class="apz-box-dialog apz-panel-md">
+		<div class="apz-panel-content">
+			<div class="apz-panel-top apz-row">
+				<div class="blk-lg-10">
+					<h4 class="apz-panel-title">Location Sharing</h4>
+				</div>
+				<div class="blk-lg-2">
+					<button type="button" class="apz-box-close" data-dismiss="mckbox"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			</div>
+			<div class="apz-panel-body">
+				<div class="apz-form-group">
+					<div class="blk-lg-12">
+						<input id="apz-loc-address" type="text" class="apz-form-control"
+							placeholder="Enter a location" autocomplete="off">
+					</div>
+				</div>
+				<div id="apz-map-content" class="apz-loc-content"></div>
+				<div class="n-vis">
+					<label class="blk-md-2 apz-control-label">Lat.:</label>
+					<div class="blk-md-3">
+						<input id="apz-loc-lat" type="text" class="apz-form-control">
+					</div>
+					<label class="blk-md-2 apz-control-label">Long.:</label>
+					<div class="blk-md-3">
+						<input id="apz-loc-lon" type="text" class="apz-form-control">
+					</div>
+				</div>
+			</div>
+			<div class="apz-panel-ft">
+				<button id="apz-my-loc" type="button"
+					class="apz-my-loc apz-btn apz-btn-green"
+					ng-click="getMyLoc($event);">My Location</button>
+				<button id="apz-loc-submit" type="button"
+					class="apz-btn apz-btn-blue apz-loc-submit apz-move-right"
+					ng-click="submitLocation($event);">Send</button>
+				<button type="button" class="apz-btn apz-btn-default apz-move-right"
+					data-dismiss="mckbox">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="apz-gm-search-box"
+	class="apz-app-box apz-dialog-box apz-search-box apz-gm-search-box fade"
+	aria-hidden="false">
+	<div class="apz-box-dialog apz-panel-sm">
+		<div class="apz-panel-content">
+			<div class="apz-panel-top apz-row">
+				<div class="blk-lg-3">
+					<img
+						src="./images/apz-icon-add-member.png"
+						alt="Add Member">
+				</div>
+				<div class="blk-lg-7">
+					<h4 class="apz-panel-title">Add Member</h4>
+				</div>
+				<div class="blk-lg-2">
+					<button type="button" class="apz-box-close" data-dismiss="mckbox"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			</div>
+			<div class="apz-panel-top apz-panel-search apz-row">
+				<div class="blk-lg-12">
+					<div class="apz-input-group">
+						<span class="apz-search-icon-box"><a
+							id="apz-gm-search-link"
+							ng-click="searchGroupMemberIconClick($event)"
+							href="javascript:void(0);" role="link"><span
+								class="apz-icon-search"></span></a></span> <input type="text"
+							id="apz-gm-search"
+							ng-keypress="searchGroupMemberKeyPress($event)"
+							data-provide="typeahead" placeholder="Search member.." autofocus />
+					</div>
+				</div>
+			</div>
+			<div class="apz-panel-body">
+				<div class="apz-panel-cell">
+					<div class="apz-panel-inner">
+						<ul id="apz-gm-search-list"
+							class="apz-contact-list apz-gm-search-list apz-nav apz-nav-stacked">
+							<groupsearchmember
+								ng-repeat="member in groupSearchMembers | orderBy:member.firstAlphaExpr:false"></groupsearchmember>
+						</ul>
+						<div id="apz-no-gs-members"
+							class="apz-no-gs-members apz-text-muted apz-v-center {{giProps.emptySearchMemberStatus}}">No
+							Users!</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="apz-search-box"
+	class="apz-app-box apz-dialog-box apz-search-box fade"
+	aria-hidden="false">
+	<div class="apz-box-dialog apz-panel-sm">
+		<div class="apz-panel-content">
+			<div class="apz-panel-top apz-row">
+				<div class="blk-lg-10">
+					<h4 class="apz-panel-title" title="New Chat">New Chat</h4>
+				</div>
+				<div class="blk-lg-2">
+					<button type="button" class="apz-box-close" data-dismiss="mckbox"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			</div>
+			<div id="apz-search-tab-menu" class="apz-search-tab-menu apz-row">
+				<div class="blk-lg-12">
+					<ul class="apz-nav apz-nav-panel">
+						<li class="apz-nav-item apz-nav-divider"><a
+							id="apz-contact-search-tab"
+							class="apz-nav-link apz-contact-search active"
+							href="javascript:void(0);"
+							ng-click="loadContactsToSearchTab($event);"><strong>Contacts</strong></a></li>
+						<li class="apz-nav-item"><a id="apz-group-search-tab"
+							class="apz-nav-link apz-group-search" href="javascript:void(0);"
+							href="javascript:void(0);"
+							ng-click="loadGroupsToSearchTab($event);"><strong>Groups</strong></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="apz-panel-body">
+				<div class="apz-form-group">
+					<div id="apz-contact-search-input-box"
+						class="apz-input-group blk-lg-12">
+						<span class="apz-search-icon-box"><a
+							href="javascript:void(0);" role="link"
+							class="apz-contact-search-link" ng-click="searchContact($event);"><span
+								class="apz-icon-search"></span></a></span> <input
+							id="apz-contact-search-input" type="text"
+							data-provide="typeahead"
+							ng-keypress="searchContactKeyPress($event)"
+							placeholder="Search..." autofocus />
+					</div>
+					<div id="apz-group-search-input-box"
+						class="apz-input-group blk-lg-12 n-vis">
+						<span class="apz-search-icon-box"><a
+							href="javascript:void(0);"
+							ng-click="searchGroupLinkClick($event);" role="link"
+							class="apz-group-search-link"><span class="apz-icon-search"></span></a></span><input
+							id="apz-group-search-input" type="text" data-provide="typeahead"
+							ng-keypress="searchGroupKeypress($event)" placeholder="Search..."
+							autofocus />
+					</div>
+				</div>
+				<div class="apz-panel-cell">
+					<div class="apz-panel-inner">
+						<ul id="apz-contact-search-list"
+							class="apz-contact-list apz-contact-search-list apz-nav apz-nav-tabs apz-nav-stacked">
+							<searchmember
+								ng-repeat="contact in contactSearchArray | orderBy:contact.firstAlphaExpr:false"></searchmember>
+						</ul>
+						<ul id="apz-group-search-list"
+							class="apz-contact-list apz-group-search-list apz-nav apz-nav-tabs apz-nav-stacked n-vis">
+							<searchmember
+								ng-repeat="contact in groupSearchArray | orderBy:contact.firstAlphaExpr:false"></searchmember>
+						</ul>
+						<div id="apz-no-search-contacts" class="apz-v-center {{searchProps.noContactStatus}}">
+							<h3>No contacts yet!</h3>
+						</div>
+						<div id="apz-no-search-groups" class="apz-v-center {{searchProps.noGroupStatus}}">
+							<h3>No groups yet!</h3>
+						</div>
+						<div id="apz-search-loading" class="apz-loading {{searchProps.loadingIconStatus}}">
+							<img
+								src="./images/apz-icon-ring.gif">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="apz-msg-preview" class="apz-msg-preview">
+	<div class="apz-row">
+		<div class="blk-lg-3 apz-preview-icon"></div>
+		<div class="blk-lg-9">
+			<div class="apz-row apz-truncate apz-preview-content">
+				<strong class="apz-preview-cont-name"></strong>
+			</div>
+			<div class="apz-row apz-preview-content">
+				<div class="apz-preview-msg-content"></div>
+				<div
+					class="apz-preview-file-content apz-msg-text blk-lg-12 apz-attachment n-vis"></div>
+			</div>
+		</div>
+	</div>
+</div>

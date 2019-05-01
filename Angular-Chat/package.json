@@ -1,0 +1,29 @@
+{
+  "name": "applozic-angular",
+  "version": "0.0.0",
+  "description": "Applozic Angular Chat Plugin",
+  "devDependencies": {
+    "bower": "^1.7.7",
+    "http-server": "^0.9.0"
+  },
+  "dependencies": {
+    "angular": "^1.6.1",
+    "angular-route": "^1.5.1",
+    "jquery": "^2.2.0"
+  },
+  "scripts": {
+    "postinstall": "bower install",
+    "prestart": "npm install",
+    "start": "http-server ./src -a localhost -p 8000 -c-1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AppLozic/Applozic-Web-Plugin.git"
+  },
+  "author": "Applozic Inc<contact@applozic.com>(https://www.applozic.com)",
+  "license": "Apache License, Version 2.0",
+  "bugs": {
+    "url": "https://github.com/AppLozic/Applozic-Web-Plugin/issues"
+  },
+  "homepage": "https://github.com/AppLozic/Applozic-Web-Plugin#readme"
+}
