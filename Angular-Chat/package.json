@@ -9,7 +9,7 @@
   "dependencies": {
     "angular": "^1.6.1",
     "angular-route": "^1.5.1",
-    "jquery": "^2.2.0"
+    "jquery": "^3.5.0"
   },
   "scripts": {
     "postinstall": "bower install",
